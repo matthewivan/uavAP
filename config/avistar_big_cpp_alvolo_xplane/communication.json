@@ -1,0 +1,50 @@
+{
+	"signal_handler": {
+	},
+	"ipc": {
+	},
+	"idc": {
+	},
+	"scheduler": {
+		"thread": {
+			"priority": 20
+		}
+	},
+	"time_provider": {
+		"system_time": {
+		}
+	},
+	"data_presentation": {
+		"compress_double": true
+	},
+	"comm": {
+		"idc": {
+			"target_pubs": {
+				"external": "comm_to_external",
+				"flight_control": "comm_to_flight_control",
+				"mission_control": "comm_to_mission_control"
+			},
+			"target_subs": {
+				"external": "external_to_comm",
+				"flight_control": "flight_control_to_comm",
+				"mission_control": "mission_control_to_comm"
+			}
+		}
+	},
+	"network": {
+		"serial": {
+			"ports": {
+				"ground_station": {
+					"serial_port": "/dev/ttyUSB0",
+					"baud_rate": 115200,
+					"delimiter_string": "--*",
+					"use_crc": true,
+					"use_hamming_ec": false,
+					"flow_control": "none",
+					"direction": "both",
+					"send_blocking": true
+				}
+			}
+		}
+	}
+}

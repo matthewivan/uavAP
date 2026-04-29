@@ -1,0 +1,34 @@
+{
+	"network": {
+		"redis":{
+			"hosts": {
+				"localhost": {
+					"ip": "192.168.3.23",
+					"auth": "pass_linux",
+					"port": 6379
+				}
+			},
+			"sub":{
+				"to_uavee": {
+					"host": "localhost",
+					"channel":"to_uavee"
+				}
+			},
+			"pub":{
+				"to_uavap": {
+					"host": "localhost",
+					"channel":"to_uavap_emu"
+				}
+			}
+		}
+	},
+	"remote_autopilot_api":{
+	},
+	"idc": {
+	},
+	"ipc": {
+	},
+	"data_presentation": {
+		"compress_double": true
+	}
+}

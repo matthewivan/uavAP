@@ -1,0 +1,1 @@
+./cmake-build-release/extern/uavGS/src/uavGS extern/uavGS/config/mac.json

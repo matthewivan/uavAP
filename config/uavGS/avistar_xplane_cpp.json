@@ -1,0 +1,101 @@
+{
+	"plugin_helper": {
+		"plugins": [
+			"/usr/local/lib/libuavcpp_uavgs_plugin.so"
+		]
+	},
+	"cpp_plugin": {
+	},
+	"network": {
+		"redis": {
+			"hosts": {
+				"localhost": {
+					"ip": "127.0.0.1",
+					"auth": "pass_linux",
+					"port": 6379
+				},
+				"remote": {
+					"ip": "149.160.157.39",
+					"auth": "pass_linux",
+					"port": 6379
+				}
+			},
+			"sub": {
+				"autopilot": {
+					"host": "localhost",
+					"channel": "to_uavgs"
+				},
+				"uavcpp": {
+					"host": "remote",
+					"channel": "uavcpp_to_uavgs"
+				}
+			},
+			"pub": {
+				"autopilot": {
+					"host": "localhost",
+					"channel": "to_uavap"
+				},
+				"uavcpp": {
+					"host": "remote",
+					"channel": "uavgs_to_uavcpp"
+				}
+			}
+		}
+	},
+	"data_presentation": {
+		"compress_double": true
+	},
+	"data_handling": {
+		"period": 100,
+		"use_ipc": false,
+		"use_idc": true,
+		"idc_target": "autopilot"
+	},
+	"widget_factory": {
+	},
+	"pid_configurator": {
+	},
+	"map_logic": {
+		"flight_path_size": 600,
+		"map_center": {
+			"lat": 40.008878,
+			"lon": -88.558397
+		}
+	},
+	"sensor_data": {
+	},
+	"planning_manager": {
+		"default_overrides": [
+			"pid/roll",
+			"pid/pitch"
+		]
+	},
+	"layout_generator": {
+		"resource_path": "/usr/local/resources/uavGS/",
+		"layout": {
+			"layout": "quad",
+			"items": [
+				{
+					"widget": "cp_grid"
+				},
+				{
+					"widget": "overhead_map"
+				},
+				{
+					"widget": "maneuver_planner"
+				},
+				{
+					"layout": "horizontal",
+					"items": [
+						{
+							"widget": "pfd"
+						},
+						{
+							"widget": "sensor_data"
+						}
+					]
+				}
+			]
+		}
+	}
+}

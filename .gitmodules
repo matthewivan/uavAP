@@ -1,0 +1,20 @@
+[submodule "extern/Catch2"]
+	path = extern/Catch2
+	url = https://github.com/catchorg/Catch2
+	branch = v2.x
+[submodule "extern/cpsCore"]
+	path = extern/cpsCore
+	url = https://github.com/theilem/cpsCore
+	branch = main
+[submodule "extern/uavGS"]
+	path = extern/uavGS
+	url = https://github.com/theilem/uavGS
+	branch = main
+[submodule "extern/uavEE"]
+	path = extern/uavEE
+	url = https://github.com/theilem/uavEE.git
+	branch = main
+[submodule "extern/pybind11"]
+	path = extern/pybind11
+	url = https://github.com/pybind/pybind11.git
+	branch = master
