@@ -18,14 +18,14 @@
 #include <cpsCore/Utilities/IPC/IPC.h>
 #include <uavAP/Core/DataHandling/DataHandling.h>
 #include "uavAP/FlightAnalysis/ManeuverPlanner/ManeuverPlanner.h"
-#include <uavAP/FlightControl/SensingActuationIO/SensingActuationIO.h>
+#include <uavAP/FlightControl/SensingActuationIO/SensingIO.h>
 
 using FlightAnalysisDefaults = StaticHelper<SchedulerFactory,
 		TimeProviderFactory,
 		IPC,
 		DataPresentation,
 		SignalHandler,
-		SensingActuationIO>;
+		SensingIO>;
 
 using FlightAnalysisHelper = StaticHelper<FlightAnalysisDefaults,
 		DataHandling<Content, Target>,

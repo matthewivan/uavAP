@@ -49,6 +49,7 @@ Maneuver::getOverrides() const
 	for (const auto&[id,waveform] : waveforms_)
 	{
 		overrides.insert(std::make_pair(id, waveform->getValue()));
+		// overrides[id] = waveform->getValue(); // generated values replace static values for the same override id
 	}
 
 	return overrides;

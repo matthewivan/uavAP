@@ -21,11 +21,10 @@ main(int argc, char** argv)
 	}
 	else
 	{
-		std::ofstream file;
-		file.open("flight_analysis.json", std::ofstream::out);
-//		JsonPopulator pop(file);
-//
-//		pop.populateContainer(FlightAnalysisHelper());
+		JsonPopulator pop;
+
+		pop.populateContainer<FlightAnalysisHelper>();
+		pop.toFile("flight_analysis.json");
 		std::cout << "Populated json" << std::endl;
 		return 0;
 	}
