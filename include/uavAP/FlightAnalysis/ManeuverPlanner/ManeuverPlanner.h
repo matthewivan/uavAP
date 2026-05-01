@@ -53,7 +53,7 @@ private:
 
 	Publisher<Maneuver::Overrides> overridePublisher_;
 	Publisher<Maneuver::Maintains> maintainsPublisher_;
-	std::pair<const std::string, ManeuverSet>* activeManeuverSet_;
+	std::pair<const std::string, ManeuverSet>* activeManeuverSet_{nullptr};
 	ManeuverSet::iterator activeManeuver_;
 
 	std::shared_ptr<Maneuver> maneuver_;

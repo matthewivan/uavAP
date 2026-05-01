@@ -47,22 +47,6 @@ CustomPlanner::run(RunStage stage)
             else
                 currentMission_ = it;
 
-            break;
-        }
-    case RunStage::NORMAL:
-        {
-            auto ipc = get<IPC>();
-
-            sensorDataSubscription_ = ipc->subscribe<SensorData>("sensor_data",
-                                                                 std::bind(&CustomPlanner::onSensorData, this,
-                                                                           std::placeholders::_1));
-
-            if (!sensorDataSubscription_.connected())
-            {
-                CPSLOG_ERROR << "Sensor Data Missing.";
-                return true;
-            }
-
             if (auto dh = get<DataHandling<Content, Target>>())
             {
                 dh->subscribeOnData<std::string>(Content::SELECT_MISSION,
@@ -83,6 +67,21 @@ CustomPlanner::run(RunStage stage)
                     Content::REQUEST_DATA);
             }
 
+            break;
+        }
+    case RunStage::NORMAL:
+        {
+            auto ipc = get<IPC>();
+
+            sensorDataSubscription_ = ipc->subscribe<SensorData>("sensor_data",
+                                                                 std::bind(&CustomPlanner::onSensorData, this,
+                                                                           std::placeholders::_1));
+
+            if (!sensorDataSubscription_.connected())
+            {
+                CPSLOG_ERROR << "Sensor Data Missing.";
+                return true;
+            }
 
             auto scheduler = get<IScheduler>();
             scheduler->schedule([this] { publishMission(); }, Milliseconds(2000));
