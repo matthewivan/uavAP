@@ -1,0 +1,18 @@
+{
+	"binary_path": "/Users/mirco/devel/uavAP/cmake-build-release/src/",
+	"config_path": "/Users/mirco/devel/uavAP/config/avistar_big_log/",
+	"processes": {
+		"flight_control": {
+			"binary": "FlightControl/FlightControl",
+			"config": "flight_control.json"
+		},
+		"mission_control": {
+			"binary": "MissionControl/MissionControl",
+			"config": "mission_control.json"
+		},
+		"communication": {
+			"binary": "Communication/Communication",
+			"config": "communication.json"
+		}
+	}
+}

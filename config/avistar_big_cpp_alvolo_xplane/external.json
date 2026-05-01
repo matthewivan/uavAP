@@ -1,0 +1,53 @@
+{
+    "data_presentation": {
+        "compress_double": true
+    },
+    "ext_connector": {
+    },
+    "idc": {},
+    "ipc": {
+        "max_num": 10,
+        "max_size": 16384,
+        "retry_period_ms": 1000,
+        "use_redis": false
+    },
+    "data_handling": {
+        "period": 200,
+        "use_ipc": true,
+        "use_idc": false,
+        "ipc_sub": "comm_to_external",
+        "ipc_pub": "external_to_comm"
+    },
+    "network": {
+        "redis": {
+            "hosts": {
+                "main": {
+                    "ip": "192.168.3.21",
+                    "auth": "pass_linux",
+                    "port": 6379
+                }
+            },
+            "sub": {
+                "external_planner": {
+                    "host": "main",
+                    "channel": "ext_to_uavap"
+                }
+            },
+            "pub": {
+                "external_planner": {
+                    "host": "main",
+                    "channel": "uavap_to_ext"
+                }
+            }
+        }
+    },
+    "sensing_shared_mem": {},
+    "scheduler": {
+        "thread": {
+            "priority": 20
+        }
+    },
+    "time_provider": {
+        "system_time": {}
+    }
+}

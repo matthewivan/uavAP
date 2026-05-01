@@ -1,0 +1,58 @@
+{
+	"network": {
+		"serial": {
+		}
+	},
+	"data_presentation": {
+		"compress_double": true
+	},
+	"data_handling": {
+		"period": 100,
+		"use_ipc": false,
+		"use_idc": true,
+		"idc_target": "autopilot"
+	},
+	"widget_factory": {
+	},
+	"pid_configurator": {
+	},
+	"map_logic": {
+		"flight_path_size": 600,
+		"map_center": {
+			"lat": 39.25186,
+			"lon": -86.51237
+		}
+	},
+	"sensor_data": {
+	},
+	"planning_manager": {
+	},
+	"layout_generator": {
+		"resource_path": "/usr/local/resources/uavGS/",
+		"layout": {
+			"layout": "quad",
+			"items": [
+				{
+					"widget": "cp_grid"
+				},
+				{
+					"widget": "overhead_map"
+				},
+				{
+					"widget": "maneuver_planner"
+				},
+				{
+					"layout": "horizontal",
+					"items": [
+						{
+							"widget": "pfd"
+						},
+						{
+							"widget": "sensor_data"
+						}
+					]
+				}
+			]
+		}
+	}
+}

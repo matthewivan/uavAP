@@ -1,0 +1,49 @@
+{
+    "agg_autopilot_api": {},
+    "data_presentation": {
+        "compress_double": true
+    },
+    "emulation_direct_interface": {
+        "controller_output_target": "controller_output",
+        "sensor_data_target": "sensor_data"
+    },
+    "idc": {},
+    "ipc": {
+        "max_num": 10,
+        "max_size": 16384,
+        "retry_period_ms": 1000,
+        "use_redis": false
+    },
+    "network": {
+        "redis":{
+            "hosts": {
+                "localhost": {
+                    "ip": "192.168.3.23",
+                    "auth": "pass_linux",
+                    "port": 6379
+                }
+            },
+            "pub":{
+                "controller_output": {
+                    "host": "localhost",
+                    "channel":"to_uavee"
+                }
+            },
+            "sub":{
+                "sensor_data": {
+                    "host": "localhost",
+                    "channel":"to_uavap_emu"
+                }
+            }
+        }
+    },
+    "scheduler": {
+        "thread": {
+            "priority": 20
+        }
+    },
+    "signal_handler": {},
+    "time_provider": {
+        "system_time": {}
+    }
+}

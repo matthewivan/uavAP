@@ -1,0 +1,13 @@
+{
+	"edu":
+	{
+	},	
+	"network":
+	{
+		"type":"serial",
+		"sim":
+		{
+			"serial_port":"/dev/ttyUSB1"
+		}
+	}
+}
