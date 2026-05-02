@@ -12,13 +12,11 @@
 #include <uavAP/FlightControl/Controller/ControllerTarget.h>
 #include <uavAP/FlightControl/Controller/PIDController/PIDHandling.h>
 #include <uavAP/FlightControl/Controller/PIDController/ManeuverRatePIDController/ManeuverRateCascade.h>
-#include <algorithm>
 #include <cmath>
-#include <limits>
 
 ManeuverRateCascade::ManeuverRateCascade(const SensorData& sd, const ControllerTarget& target,
 										 ControllerOutput& out) :
-		sensorData_(&sd), controlEnv_(&sd.timestamp)
+		controlEnv_(&sd.timestamp)
 {
 	/* Roll Control */
 	auto yawrateTarget = controlEnv_.addInput(&target.yawRate);
@@ -92,14 +90,8 @@ ManeuverRateCascade::ManeuverRateCascade(const SensorData& sd, const ControllerT
 	auto throttleOut = controlEnv_.addOutput(throttleConstraint_, &out.throttleOutput);
 
 	/* Rudder Output */
-	auto rudderBeta = controlEnv_.addInput(&beta_);
-	auto rudderTarget = controlEnv_.addConstant(0);
-
-	auto rudderPID = controlEnv_.addPID(rudderTarget, rudderBeta, defaultParams);
-
-	auto invertedRudder = controlEnv_.addGain(rudderPID, -1);
-
-	yawOutputConstraint_ = controlEnv_.addConstraint(invertedRudder, -1, 1);
+	auto yawOutput = controlEnv_.addConstant(0);
+	yawOutputConstraint_ = controlEnv_.addConstraint(yawOutput, -1, 1);
 
 	auto yawOut = controlEnv_.addOutput(yawOutputConstraint_, &out.yawOutput);
 
@@ -108,7 +100,6 @@ ManeuverRateCascade::ManeuverRateCascade(const SensorData& sd, const ControllerT
 	pids_.insert(std::make_pair(PIDs::CLIMB_ANGLE, climbAnglePID));
 	pids_.insert(std::make_pair(PIDs::ROLL, rollPID));
 	pids_.insert(std::make_pair(PIDs::ROLL_RATE, rollRatePID));
-	pids_.insert(std::make_pair(PIDs::RUDDER, rudderPID));
 
 	outputs_.insert(std::make_pair(ControllerOutputs::PITCH, pitchOut));
 	outputs_.insert(std::make_pair(ControllerOutputs::ROLL, rollOut));
@@ -169,34 +160,7 @@ ManeuverRateCascade::getPIDStatus() const
 void
 ManeuverRateCascade::evaluate()
 {
-	updateSideslip();
 	controlEnv_.evaluate();
-}
-
-void
-ManeuverRateCascade::updateSideslip()
-{
-	if (!sensorData_)
-		return;
-
-	auto velocityNorm = sensorData_->velocity.norm();
-	if (velocityNorm <= std::numeric_limits<FloatingType>::epsilon())
-	{
-		beta_ = 0;
-		return;
-	}
-
-	auto roll = sensorData_->attitude.x();
-	auto pitch = -sensorData_->attitude.y();
-	auto yaw = sensorData_->attitude.z();
-
-	Matrix3 rotationMatrix = AngleAxis(-roll, Vector3::UnitX())
-							 * AngleAxis(-pitch, Vector3::UnitY())
-							 * AngleAxis(-yaw, Vector3::UnitZ());
-
-	auto velocityBody = rotationMatrix * sensorData_->velocity;
-	auto lateralVelocityRatio = std::clamp(velocityBody.y() / velocityNorm, FloatingType(-1), FloatingType(1));
-	beta_ = -std::asin(lateralVelocityRatio);
 }
 
 FloatingType

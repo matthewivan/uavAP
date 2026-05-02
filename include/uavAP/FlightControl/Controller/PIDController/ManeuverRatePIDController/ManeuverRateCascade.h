@@ -72,15 +72,10 @@ private:
 	static FloatingType
 	yawrateToRoll(FloatingType yawrate, FloatingType airspeed);
 
-	void
-	updateSideslip();
-
-	const SensorData* sensorData_{nullptr};
 	Control::ControlEnvironment controlEnv_;
 
 	std::map<PIDs, std::shared_ptr<Control::PID>> pids_;
 	std::map<ControllerOutputs, std::shared_ptr<Control::Output>> outputs_;
-	FloatingType beta_{0};
 
 	using AngleConstraint = Control::Constraint<Angle<FloatingType>>;
 
@@ -101,7 +96,7 @@ ManeuverRateCascade::configureParams(Config& c)
 	for (auto& [key, pid] : pids_)
 	{
 		ParameterRef<Control::PIDParameters> param(pid->getParams(),
-												   EnumMap<PIDs>::convert(key), key != PIDs::RUDDER);
+												   EnumMap<PIDs>::convert(key), true);
 
 		c & param;
 	}
