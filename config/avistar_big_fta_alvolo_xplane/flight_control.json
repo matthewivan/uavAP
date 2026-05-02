@@ -42,6 +42,13 @@
 					"ki": 0.05,
 					"kp": 0.1
 				},
+				"rudder": {
+					"ff": 0,
+					"imax": 0.2,
+					"kd": 0,
+					"ki": 0,
+					"kp": 1
+				},
 				"roll_constraint": {
 					"min": -45,
 					"max": 45
@@ -56,7 +63,8 @@
 				},
 				"roll_alpha": 0.1,
 				"throttle_alpha": 0.1,
-				"pitch_alpha": 0.1
+				"pitch_alpha": 0.1,
+				"yaw_alpha": 0.1
 			}
 		}
 	},

@@ -72,16 +72,22 @@ private:
 	static FloatingType
 	yawrateToRoll(FloatingType yawrate, FloatingType airspeed);
 
+	void
+	updateSideslip();
+
+	const SensorData* sensorData_{nullptr};
 	Control::ControlEnvironment controlEnv_;
 
 	std::map<PIDs, std::shared_ptr<Control::PID>> pids_;
 	std::map<ControllerOutputs, std::shared_ptr<Control::Output>> outputs_;
+	FloatingType beta_{0};
 
 	using AngleConstraint = Control::Constraint<Angle<FloatingType>>;
 
 	std::shared_ptr<AngleConstraint> rollConstraint_;
 	std::shared_ptr<AngleConstraint> rollRateTargetConstraint_;
 	std::shared_ptr<AngleConstraint> pitchConstraint_;
+	std::shared_ptr<Control::Constraint<FloatingType>> yawOutputConstraint_;
 	std::shared_ptr<Control::Constraint<FloatingType>> throttleConstraint_;
 
 };
@@ -95,7 +101,7 @@ ManeuverRateCascade::configureParams(Config& c)
 	for (auto& [key, pid] : pids_)
 	{
 		ParameterRef<Control::PIDParameters> param(pid->getParams(),
-												   EnumMap<PIDs>::convert(key), true);
+												   EnumMap<PIDs>::convert(key), key != PIDs::RUDDER);
 
 		c & param;
 	}
@@ -103,7 +109,7 @@ ManeuverRateCascade::configureParams(Config& c)
 	for (auto& [key, out] : outputs_)
 	{
 		ParameterRef<FloatingType> param(out->getTrimAlpha(),
-										 EnumMap<ControllerOutputs>::convert(key) + "_alpha", true);
+										 EnumMap<ControllerOutputs>::convert(key) + "_alpha", key != ControllerOutputs::YAW);
 
 		c & param;
 	}

@@ -1,4 +1,4 @@
-{
+﻿{
 	"data_handling": {
 		"period": 200,
 		"use_ipc": true,
@@ -640,7 +640,8 @@
 						"overrides": {
 							"local_planner/position_z": 150.0,
 							"local_planner/velocity": 20.0,
-							"pid/roll": 0.0
+							"pid/roll": 0.0,
+							"save_trim/yaw": 1.0
 						},
 						"transition": {
 							"steady_state": {
@@ -656,6 +657,7 @@
 					},
 					{
 						"overrides": {
+							"apply_trim/yaw": 1.0,
 							"local_planner/position_z": 150.0,
 							"local_planner/velocity": 20.0,
 							"pid/roll": 0.0
