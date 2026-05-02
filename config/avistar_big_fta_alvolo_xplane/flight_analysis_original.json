@@ -147,16 +147,14 @@
 						"overrides": {
 							"local_planner/position_z": 150,
 							"local_planner/velocity": 20,
-							"pid/roll": 0,
-							"save_trim/pitch": 1
+							"pid/roll": 0
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 2000,
+								"duration": 1000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
-									"attitude_y": 0.2,
 									"position_z": 3
 								}
 							}
@@ -164,10 +162,9 @@
 					},
 					{
 						"overrides": {
-							"apply_trim/pitch": 1,
-							"local_planner/position_z": 150,
+							"apply_trim/roll": 1,
 							"local_planner/velocity": 20,
-							"pid/roll": 0
+							"output/roll": 0
 						},
 						"transition": {
 							"duration": {
@@ -187,9 +184,11 @@
 					},
 					{
 						"overrides": {
-							"local_planner/position_z": 150,
+							"apply_trim/pitch": 1,
+							"apply_trim/roll": 1,
 							"local_planner/velocity": 20,
-							"pid/roll": 0
+							"output/pitch": 0,
+							"output/roll": 0
 						},
 						"transition": {
 							"duration": {
@@ -206,15 +205,13 @@
 						"overrides": {
 							"local_planner/position_z": 150,
 							"local_planner/velocity": 20,
-							"pid/roll": 0,
-							"save_trim/roll": 1
+							"pid/pitch": 0
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 2000,
+								"duration": 1000,
 								"sensor_values": {
 									"air_speed": 1,
-									"attitude_x": 0.2,
 									"attitude_y": 0.2,
 									"position_z": 3
 								}
@@ -223,10 +220,9 @@
 					},
 					{
 						"overrides": {
-							"apply_trim/roll": 1,
-							"local_planner/position_z": 150,
+							"apply_trim/pitch": 1,
 							"local_planner/velocity": 20,
-							"pid/roll": 0
+							"output/pitch": 0
 						},
 						"transition": {
 							"duration": {
@@ -246,9 +242,11 @@
 					},
 					{
 						"overrides": {
-							"local_planner/position_z": 150,
+							"apply_trim/pitch": 1,
+							"apply_trim/roll": 1,
 							"local_planner/velocity": 20,
-							"pid/roll": 0
+							"output/pitch": 0,
+							"output/roll": 0
 						},
 						"transition": {
 							"duration": {

@@ -1,4 +1,4 @@
-﻿{
+{
 	"data_handling": {
 		"period": 200,
 		"use_ipc": true,
@@ -7,8 +7,9 @@
 		"ipc_pub": "flight_analysis_to_comm"
 	},
 	"maneuver_planner": {
-		"period": 10,
+		"period": 20,
 		"log_path": "/logs/",
+		"print_maneuver_info": false,
 		"maneuver_sets": {
 			"roll_maneuver": {
 				"maneuvers": [
@@ -29,8 +30,6 @@
 						}
 					},
 					{
-						"overrides": {
-						},
 						"maintains": [
 							"pid/pitch"
 						],
@@ -44,7 +43,7 @@
 						},
 						"transition": {
 							"duration": {
-								"duration": 5000
+								"duration": 10000
 							}
 						}
 					}
@@ -73,8 +72,7 @@
 					}
 				]
 			},
-			"stall_speed": {
-				"save_as": "stall_speed.txt",
+			"trim_analysis": {
 				"maneuvers": [
 					{
 						"overrides": {
@@ -86,9 +84,48 @@
 							"steady_state": {
 								"duration": 5000,
 								"sensor_values": {
-									"attitude_x": 0.1,
-									"attitude_y": 0.1,
-									"position_z": 5
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0,
+							"save_trim/pitch": 1.0,
+							"save_trim/roll": 1.0,
+							"save_trim/throttle": 1.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 10000
+							}
+						}
+					}
+				],
+				"save_as": "trim_analysis.txt"
+			},
+			"stall_speed": {
+				"maneuvers": [
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"steady_state": {
+								"duration": 5000,
+								"sensor_values": {
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
 								}
 							}
 						}
@@ -101,10 +138,11 @@
 						},
 						"transition": {
 							"sensor_data": {
-								"sensor": "air_speed",
-								"use_tolerance": false,
+								"sensor": "ground_speed",
+								"use_tolerance": true,
 								"relational": "<",
-								"threshold": 15
+								"threshold": 16.0,
+								"tolerance": 0.0
 							}
 						}
 					},
@@ -117,14 +155,16 @@
 						"transition": {
 							"sensor_data": {
 								"sensor": "angular_rate_y",
-								"use_tolerance": false,
+								"use_tolerance": true,
 								"relational": "<",
-								"threshold": -10
+								"threshold": -10.0,
+								"tolerance": 0.0
 							}
 						}
 					},
 					{
-						"override": {
+						"overrides": {
+							"local_planner/position_z": 150.0,
 							"output/roll": 0.0,
 							"output/pitch": 0.0,
 							"output/yaw": 0.0,
@@ -133,26 +173,27 @@
 						"transition": {
 							"sensor_data": {
 								"sensor": "position_z",
-								"use_tolerance": false,
+								"use_tolerance": true,
 								"relational": "<",
-								"threshold": 100
+								"threshold": 100.0,
+								"tolerance": 0.0
 							}
 						}
 					}
-				]
+				],
+				"save_as": "stall_speed.txt"
 			},
-			"pitch_doublet_1hz_50amp": {
+			"stall_polar": {
 				"maneuvers": [
 					{
 						"overrides": {
-							"local_planner/position_z": 150,
-							"local_planner/velocity": 20,
-							"pid/roll": 0,
-							"save_trim/pitch": 1
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 2000,
+								"duration": 5000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -164,10 +205,344 @@
 					},
 					{
 						"overrides": {
-							"apply_trim/pitch": 1,
-							"local_planner/position_z": 150,
-							"local_planner/velocity": 20,
-							"pid/roll": 0
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 5000
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"pid/pitch": -30.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "position_z",
+								"use_tolerance": true,
+								"relational": "<",
+								"threshold": 120.0,
+								"tolerance": 0.0
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"pid/pitch": 32.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "attitude_y",
+								"use_tolerance": true,
+								"relational": ">=",
+								"threshold": 0.523599,
+								"tolerance": 0.0
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"output/roll": 0.0,
+							"output/pitch": 0.0,
+							"output/yaw": 0.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "position_z",
+								"use_tolerance": true,
+								"relational": "<=",
+								"threshold": 100.0,
+								"tolerance": 0.0
+							}
+						}
+					}
+				],
+				"save_as": "stall_polar.txt"
+			},
+			"phugoid": {
+				"maneuvers": [
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"steady_state": {
+								"duration": 5000,
+								"sensor_values": {
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 5000
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"pid/pitch": -30.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "position_z",
+								"use_tolerance": true,
+								"relational": "<",
+								"threshold": 120.0,
+								"tolerance": 0.0
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"pid/pitch": 22.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "attitude_y",
+								"use_tolerance": true,
+								"relational": ">=",
+								"threshold": 0.349066,
+								"tolerance": 0.0
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"output/roll": 0.0,
+							"output/pitch": 0.15,
+							"output/yaw": 0.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "position_z",
+								"use_tolerance": true,
+								"relational": "<=",
+								"threshold": 100.0,
+								"tolerance": 0.0
+							}
+						}
+					}
+				],
+				"save_as": "phugoid.txt"
+			},
+			"phugoid_roll": {
+				"maneuvers": [
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"steady_state": {
+								"duration": 5000,
+								"sensor_values": {
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 5000
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"pid/pitch": -30.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "position_z",
+								"use_tolerance": true,
+								"relational": "<",
+								"threshold": 120.0,
+								"tolerance": 0.0
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/pitch": 22.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "attitude_y",
+								"use_tolerance": true,
+								"relational": ">=",
+								"threshold": 0.349066,
+								"tolerance": 0.0
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"output/roll": 0.0,
+							"output/pitch": 0.15,
+							"output/yaw": 0.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "position_z",
+								"use_tolerance": true,
+								"relational": "<=",
+								"threshold": 100.0,
+								"tolerance": 0.0
+							}
+						}
+					}
+				],
+				"save_as": "phugoid_roll.txt"
+			},
+			"idle_descent": {
+				"maneuvers": [
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"steady_state": {
+								"duration": 5000,
+								"sensor_values": {
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 16.0,
+							"pid/roll": 0.0,
+							"save_trim/pitch": 1.0
+						},
+						"transition": {
+							"steady_state": {
+								"duration": 5000,
+								"sensor_values": {
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"output/throttle": -1.0,
+							"pid/roll": 0.0,
+							"pid/pitch": -10.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 1000
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"apply_trim/pitch": 1.0,
+							"output/throttle": -1.0,
+							"output/pitch": 0.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "position_z",
+								"use_tolerance": true,
+								"relational": "<",
+								"threshold": 100.0,
+								"tolerance": 0.0
+							}
+						}
+					}
+				],
+				"save_as": "idle_descent.txt"
+			},
+			"pitch_doublet_1hz_50amp": {
+				"maneuvers": [
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0,
+							"save_trim/pitch": 1.0
+						},
+						"transition": {
+							"steady_state": {
+								"duration": 5000,
+								"sensor_values": {
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"apply_trim/pitch": 1.0,
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
 						},
 						"transition": {
 							"duration": {
@@ -187,9 +562,9 @@
 					},
 					{
 						"overrides": {
-							"local_planner/position_z": 150,
-							"local_planner/velocity": 20,
-							"pid/roll": 0
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
 						},
 						"transition": {
 							"duration": {
@@ -204,14 +579,14 @@
 				"maneuvers": [
 					{
 						"overrides": {
-							"local_planner/position_z": 150,
-							"local_planner/velocity": 20,
-							"pid/roll": 0,
-							"save_trim/roll": 1
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0,
+							"save_trim/roll": 1.0
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 2000,
+								"duration": 5000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -223,10 +598,10 @@
 					},
 					{
 						"overrides": {
-							"apply_trim/roll": 1,
-							"local_planner/position_z": 150,
-							"local_planner/velocity": 20,
-							"pid/roll": 0
+							"apply_trim/roll": 1.0,
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
 						},
 						"transition": {
 							"duration": {
@@ -246,9 +621,9 @@
 					},
 					{
 						"overrides": {
-							"local_planner/position_z": 150,
-							"local_planner/velocity": 20,
-							"pid/roll": 0
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
 						},
 						"transition": {
 							"duration": {
@@ -258,9 +633,67 @@
 					}
 				],
 				"save_as": "roll_doublet_1hz_50amp.txt"
+			},
+			"yaw_doublet_1hz_50amp": {
+				"maneuvers": [
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"steady_state": {
+								"duration": 5000,
+								"sensor_values": {
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 1000
+							}
+						},
+						"waveforms": {
+							"output/yaw": {
+								"square": {
+									"amplitude": 0.5,
+									"frequency": 1,
+									"offset": 0,
+									"phase": 0
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 2000
+							}
+						}
+					}
+				],
+				"save_as": "yaw_doublet_1hz_50amp.txt"
 			}
 		}
 	},
+	"sensing_shared_mem": {},
 	"data_presentation": {
 		"compress_double": true
 	}
