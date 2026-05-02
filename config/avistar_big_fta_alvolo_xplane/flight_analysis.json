@@ -141,7 +141,7 @@
 					}
 				]
 			},
-			"pitch_doublet_1hz_25amp": {
+			"pitch_doublet_1hz_50amp": {
 				"maneuvers": [
 					{
 						"overrides": {
@@ -165,7 +165,7 @@
 					{
 						"overrides": {
 							"apply_trim/pitch": 1,
-							"local_planner/position_z": 100,
+							"local_planner/position_z": 150,
 							"local_planner/velocity": 20,
 							"pid/roll": 0
 						},
@@ -177,7 +177,7 @@
 						"waveforms": {
 							"output/pitch": {
 								"square": {
-									"amplitude": 0.25,
+									"amplitude": 0.5,
 									"frequency": 1,
 									"offset": 0,
 									"phase": 0
@@ -187,7 +187,7 @@
 					},
 					{
 						"overrides": {
-							"local_planner/position_z": 100,
+							"local_planner/position_z": 150,
 							"local_planner/velocity": 20,
 							"pid/roll": 0
 						},
@@ -198,9 +198,9 @@
 						}
 					}
 				],
-				"save_as": "pitch_doublet_1hz_25amp.txt"
+				"save_as": "pitch_doublet_1hz_50amp.txt"
 			},
-			"roll_doublet_1hz_25amp": {
+			"roll_doublet_1hz_50amp": {
 				"maneuvers": [
 					{
 						"overrides": {
@@ -224,7 +224,7 @@
 					{
 						"overrides": {
 							"apply_trim/roll": 1,
-							"local_planner/position_z": 100,
+							"local_planner/position_z": 150,
 							"local_planner/velocity": 20,
 							"pid/roll": 0
 						},
@@ -236,7 +236,7 @@
 						"waveforms": {
 							"output/roll": {
 								"square": {
-									"amplitude": 0.25,
+									"amplitude": 0.5,
 									"frequency": 1,
 									"offset": 0,
 									"phase": 0
@@ -246,7 +246,7 @@
 					},
 					{
 						"overrides": {
-							"local_planner/position_z": 100,
+							"local_planner/position_z": 150,
 							"local_planner/velocity": 20,
 							"pid/roll": 0
 						},
@@ -257,7 +257,7 @@
 						}
 					}
 				],
-				"save_as": "roll_doublet_1hz_25amp.txt"
+				"save_as": "roll_doublet_1hz_50amp.txt"
 			}
 		}
 	},
