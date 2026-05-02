@@ -62,7 +62,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"attitude_x": 0.1,
 									"attitude_y": 0.1
@@ -82,7 +82,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -120,7 +120,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -193,7 +193,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -270,6 +270,99 @@
 				],
 				"save_as": "stall_polar.txt"
 			},
+			"spin_left": {
+				"maneuvers": [
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"steady_state": {
+								"duration": 2000,
+								"sensor_values": {
+									"air_speed": 1,
+									"attitude_x": 0.2,
+									"attitude_y": 0.2,
+									"position_z": 3
+								}
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"pid/roll": 0.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"sensor_data": {
+								"sensor": "ground_speed",
+								"use_tolerance": true,
+								"relational": "<",
+								"threshold": 16.0,
+								"tolerance": 0.0
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"output/roll": 0.0,
+							"output/pitch": 0.5,
+							"output/yaw": 1.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 1000
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"output/roll": 0.0,
+							"output/pitch": 0.5,
+							"output/yaw": 1.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 1500
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"output/roll": 0.0,
+							"output/pitch": -0.3,
+							"output/yaw": -1.0,
+							"output/throttle": -1.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 1500
+							}
+						}
+					},
+					{
+						"overrides": {
+							"local_planner/position_z": 150.0,
+							"local_planner/velocity": 20.0,
+							"pid/roll": 0.0
+						},
+						"transition": {
+							"duration": {
+								"duration": 3000
+							}
+						}
+					}
+				],
+				"save_as": "spin_left.txt"
+			},
 			"phugoid": {
 				"maneuvers": [
 					{
@@ -280,7 +373,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -367,7 +460,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -453,7 +546,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -472,7 +565,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -527,7 +620,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -586,7 +679,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -645,7 +738,7 @@
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
