@@ -145,14 +145,14 @@
 				"maneuvers": [
 					{
 						"overrides": {
-							"local_planner/position_z": 100,
+							"local_planner/position_z": 150,
 							"local_planner/velocity": 20,
 							"pid/roll": 0,
 							"save_trim/pitch": 1
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
@@ -204,14 +204,14 @@
 				"maneuvers": [
 					{
 						"overrides": {
-							"local_planner/position_z": 100,
+							"local_planner/position_z": 150,
 							"local_planner/velocity": 20,
 							"pid/roll": 0,
 							"save_trim/roll": 1
 						},
 						"transition": {
 							"steady_state": {
-								"duration": 5000,
+								"duration": 2000,
 								"sensor_values": {
 									"air_speed": 1,
 									"attitude_x": 0.2,
