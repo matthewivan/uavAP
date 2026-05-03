@@ -12,6 +12,7 @@
 
 #include "uavAP/Core/DataHandling/Content.hpp"
 #include "uavAP/FlightAnalysis/ManeuverPlanner/ManeuverPlannerParams.h"
+#include "uavAP/FlightControl/Controller/AdvancedControl.h"
 
 template <typename C, typename T>
 class DataHandling;
@@ -53,7 +54,8 @@ private:
 
 	Publisher<Maneuver::Overrides> overridePublisher_;
 	Publisher<Maneuver::Maintains> maintainsPublisher_;
-	std::pair<const std::string, ManeuverSet>* activeManeuverSet_{nullptr};
+	Publisher<AdvancedControl> advancedControlPublisher_;
+	std::pair<const std::string, ManeuverSet>* activeManeuverSet_{nullptr}; // add null pointer
 	ManeuverSet::iterator activeManeuver_;
 
 	std::shared_ptr<Maneuver> maneuver_;
