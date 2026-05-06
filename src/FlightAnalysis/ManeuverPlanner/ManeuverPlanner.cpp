@@ -26,7 +26,6 @@ ManeuverPlanner::run(RunStage stage)
 			opts.variableSize = true;
 			overridePublisher_ = ipc->publish<Maneuver::Overrides>("overrides", opts);
 			maintainsPublisher_ = ipc->publish<Maneuver::Maintains>("maintains", opts);
-			advancedControlPublisher_ = ipc->publish<AdvancedControl>("advanced_control_maneuver");
 			break;
 		}
 		case RunStage::NORMAL:
@@ -86,13 +85,9 @@ ManeuverPlanner::startManeuverSet()
 	if (activeManeuverSet_->second.saveAs())
 	{
 		auto io = get<ISensingIO>();
-		auto logPath = params.logPath() + humanReadableTimeOfDay(io->getSensorData().timestamp) +
-					   "_" + *activeManeuverSet_->second.saveAs();
-		maneuverLogFile_.open(logPath);
-		if (maneuverLogFile_.is_open())
-			CPSLOG_DEBUG << "opening " << logPath;
-		else
-			CPSLOG_ERROR << "Could not open maneuver log " << logPath;
+		maneuverLogFile_.open(params.logPath() + humanReadableTimeOfDay(io->getSensorData().timestamp) +
+							  "_" + *activeManeuverSet_->second.saveAs());
+		CPSLOG_DEBUG << "opening " << params.logPath() + *activeManeuverSet_->second.saveAs();
 	}
 	activeManeuver_ = activeManeuverSet_->second.maneuvers().begin();
 
@@ -116,11 +111,7 @@ ManeuverPlanner::activateManeuver()
 
 	overridePublisher_.publish(maneuver_->getOverrides());
 	maintainsPublisher_.publish(maneuver_->getMaintains());
-	auto advancedControl = maneuver_->getAdvancedControl();
-	if (advancedControl)
-		advancedControlPublisher_.publish(*advancedControl);
-	if (params.printManeuverInfo())
-		maneuver_->printInfo();
+	maneuver_->printInfo();
 	if (maneuverLogFile_.is_open())
 	{
 		auto io = get<ISensingIO>();
@@ -175,6 +166,5 @@ ManeuverPlanner::stopManeuver()
 	maneuver_.reset();
 	overridePublisher_.publish(Maneuver::Overrides());
 	maintainsPublisher_.publish(Maneuver::Maintains());
-	advancedControlPublisher_.publish(AdvancedControl());
 	activeManeuverSet_ = nullptr;
 }

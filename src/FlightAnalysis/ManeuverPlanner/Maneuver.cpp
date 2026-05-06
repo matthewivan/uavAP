@@ -49,7 +49,6 @@ Maneuver::getOverrides() const
 	for (const auto&[id,waveform] : waveforms_)
 	{
 		overrides.insert(std::make_pair(id, waveform->getValue()));
-		// overrides[id] = waveform->getValue(); // generated values replace static values for the same override id
 	}
 
 	return overrides;
@@ -78,19 +77,6 @@ Maneuver::printInfo()
 	{
 		std::cout << it << std::endl;
 	}
-	if (params.advancedControl())
-	{
-		const auto& advanced = *params.advancedControl();
-		std::cout << "Advanced Control: " << std::endl;
-		std::cout << "throws_control: "
-				  << EnumMap<ThrowsControl>::convert(advanced.throwsSelection()) << std::endl;
-		std::cout << "camber_control: "
-				  << EnumMap<CamberControl>::convert(advanced.camberSelection()) << std::endl;
-		std::cout << "special_control: "
-				  << EnumMap<SpecialControl>::convert(advanced.specialSelection()) << std::endl;
-		std::cout << "camber_value: " << advanced.camberValue() << std::endl;
-		std::cout << "special_value: " << advanced.specialValue() << std::endl;
-	}
 
 	std::cout << std::endl;
 	if (!transition_)
@@ -114,10 +100,4 @@ Maneuver::Maintains
 Maneuver::getMaintains() const
 {
 	return params.maintains();
-}
-
-Optional<AdvancedControl>
-Maneuver::getAdvancedControl() const
-{
-	return params.advancedControl();
 }

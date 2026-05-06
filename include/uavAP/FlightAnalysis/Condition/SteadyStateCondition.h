@@ -48,9 +48,6 @@ public:
 	bool
 	evaluate() override;
 
-	void
-	printInfo() override;
-
 private:
 
 	std::map<SensorEnum, FloatingType> lastReadings_;

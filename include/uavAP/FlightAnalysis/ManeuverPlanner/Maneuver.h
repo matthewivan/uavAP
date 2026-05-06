@@ -13,7 +13,6 @@
 #include "cpsCore/cps_object"
 #include "uavAP/FlightAnalysis/Condition/ICondition.h"
 #include "uavAP/FlightAnalysis/SignalGenerator/ISignalGenerator.h"
-#include "uavAP/FlightControl/Controller/AdvancedControl.h"
 
 //struct Maneuver
 //{
@@ -88,7 +87,6 @@ struct ManeuverParams
 	Parameter<std::map<std::string, FloatingType>> overrides = {{}, "overrides", false};
 	Parameter<std::vector<std::string>> maintains = {{}, "maintains", false};
 	Parameter<std::map<std::string, Configuration>> waveforms = {{}, "waveforms", false};
-	Parameter<Optional<AdvancedControl>> advancedControl = {std::nullopt, "advanced_control", false};
 	Parameter<Configuration> transition = {{}, "transition", true};
 
 	template<typename Config>
@@ -98,7 +96,6 @@ struct ManeuverParams
 		c & overrides;
 		c & maintains;
 		c & waveforms;
-		c & advancedControl;
 		c & transition;
 	}
 };
@@ -118,9 +115,6 @@ public:
 
 	Maintains
 	getMaintains() const;
-
-	Optional<AdvancedControl>
-	getAdvancedControl() const;
 
 	bool
 	inTransition();
