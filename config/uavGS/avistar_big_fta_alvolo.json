@@ -1,0 +1,77 @@
+{
+    "xplane_manager": {
+        "home_position": [39.25240019477142, -86.51240411105785, 300.0]
+    },
+    "network": {
+        "serial": {
+            "ports": {
+                "autopilot": {
+                    "serial_port": "/dev/ttyUSB0",
+                    "baud_rate": 115200,
+                    "delimiter_string": "--*",
+                    "use_crc": true,
+                    "use_hamming_ec": false,
+                    "flow_control": "none",
+                    "direction": "both",
+                    "send_blocking": true
+                }
+            }
+        }
+    },
+    "data_presentation": {
+        "compress_double": true
+    },
+    "data_handling": {
+        "period": 100,
+        "use_ipc": false,
+        "use_idc": true,
+        "idc_target": "autopilot"
+    },
+    "widget_factory": {
+    },
+    "pid_configurator": {
+    },
+    "map_logic": {
+        "flight_path_size": 600,
+        "map_center": {
+            "lat": 40.008878,
+            "lon": -88.558397
+        }
+    },
+    "sensor_data": {
+    },
+    "planning_manager": {
+        "default_overrides": [
+            "pid/roll",
+            "pid/pitch"
+        ]
+    },
+    "layout_generator": {
+        "resource_path": "/usr/local/resources/uavGS/",
+        "layout": {
+            "layout": "quad",
+            "items": [
+                {
+                    "widget": "cp_grid"
+                },
+                {
+                    "widget": "overhead_map"
+                },
+                {
+                    "widget": "maneuver_planner"
+                },
+                {
+                    "layout": "horizontal",
+                    "items": [
+                        {
+                            "widget": "pfd"
+                        },
+                        {
+                            "widget": "sensor_data"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
